@@ -49,8 +49,20 @@ def persist_wallet() -> None:
     save_wallet(st.session_state.wallet)
 
 
+# def note_asset(denomination: int) -> str:
+#     return str(ASSET_DIR / f"{denomination}.jpg")
+
 def note_asset(denomination: int) -> str:
-    return str(ASSET_DIR / f"note_{denomination}.svg")
+
+    for ext in (".jpg", ".png", ".svg"):
+
+        path = ASSET_DIR / f"{denomination}{ext}"
+
+        if path.exists():
+
+            return str(path)
+
+    raise FileNotFoundError(f"No image found for denomination {denomination}")
 
 
 def render_header(title: str, subtitle: str) -> None:

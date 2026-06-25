@@ -1,11 +1,83 @@
 [
-  {"denomination":500000,"label":"500,000 VND","color_hint":"teal","front":"Ho Chi Minh portrait","back":"Birthplace of Ho Chi Minh in Kim Lien","culture":"The 500,000 VND note is the highest common denomination. The back shows Kim Lien village, associated with Ho Chi Minh's childhood and Vietnamese national history.","tip":"Useful for hotels, larger restaurants and bigger purchases. Avoid using it for very small street-market items if you have smaller notes."},
-  {"denomination":200000,"label":"200,000 VND","color_hint":"red","front":"Ho Chi Minh portrait","back":"Ha Long Bay","culture":"The 200,000 VND note features Ha Long Bay, a famous UNESCO-listed natural landscape in northern Vietnam.","tip":"Good for restaurants, day trips, groceries and taxi rides."},
-  {"denomination":100000,"label":"100,000 VND","color_hint":"green","front":"Ho Chi Minh portrait","back":"Temple of Literature","culture":"The 100,000 VND note shows the Temple of Literature in Hanoi, a symbol of learning, scholarship and Vietnamese education.","tip":"A practical everyday note for food, transport and small shopping."},
-  {"denomination":50000,"label":"50,000 VND","color_hint":"pink","front":"Ho Chi Minh portrait","back":"Phu Van Lau Pavilion in Hue","culture":"The 50,000 VND note links to Hue, Vietnam's former imperial capital, and its historical architecture.","tip":"Very useful for cafes, snacks and short rides."},
-  {"denomination":20000,"label":"20,000 VND","color_hint":"blue","front":"Ho Chi Minh portrait","back":"Japanese Covered Bridge in Hoi An","culture":"The 20,000 VND note shows Hoi An's Japanese Covered Bridge, a well-known symbol of trade and cultural exchange.","tip":"Common for small meals, drinks and market purchases."},
-  {"denomination":10000,"label":"10,000 VND","color_hint":"brown","front":"Ho Chi Minh portrait","back":"Oil production scene","culture":"The 10,000 VND note represents Vietnam's economic development and industry.","tip":"Great for exact change and small street-food purchases."},
-  {"denomination":5000,"label":"5,000 VND","color_hint":"navy","front":"Ho Chi Minh portrait","back":"Tri An Hydropower Plant","culture":"The 5,000 VND note highlights infrastructure and energy development.","tip":"Useful for parking, small snacks and making exact payments."},
-  {"denomination":2000,"label":"2,000 VND","color_hint":"gray","front":"Ho Chi Minh portrait","back":"Textile factory","culture":"The 2,000 VND note reflects industry and labor themes in Vietnam's economy.","tip":"Small note for rounding payments or exact change."},
-  {"denomination":1000,"label":"1,000 VND","color_hint":"lightgray","front":"Ho Chi Minh portrait","back":"Elephant logging scene","culture":"The 1,000 VND note is less common in tourist areas but helps with very exact cash totals.","tip":"Keep a few for small exact-change situations."}
+  {
+    "denomination": 500000,
+    "label": "500,000 VND",
+    "color_hint": "teal",
+    "front": "Ho Chi Minh portrait",
+    "back": "Kim Lien village, Nghe An - birthplace of Ho Chi Minh.",
+    "culture": "The 500,000 VND note is the highest common denomination. The back shows Kim Lien village, associated with Ho Chi Minh's childhood and Vietnamese national history.Symbolizes respect for origins and the humble beginnings of Vietnam’s most influential leader.",
+    "tip": "Useful for hotels, larger restaurants and bigger purchases. Avoid using it for very small street-market items if you have smaller notes."
+  },
+  {
+    "denomination": 200000,
+    "label": "200,000 VND",
+    "color_hint": "red",
+    "front": "Ho Chi Minh portrait",
+    "back": "Ha Long Bay",
+    "culture": "The 200,000 VND note features Ha Long Bay, a famous UNESCO-listed natural landscape in northern Vietnam.",
+    "tip": "Good for restaurants, day trips, groceries and taxi rides."
+  },
+  {
+    "denomination": 100000,
+    "label": "100,000 VND",
+    "color_hint": "green",
+    "front": "Ho Chi Minh portrait",
+    "back": "Temple of Literature, Hanoi - founded in 1070, Vietnam’s first national university.",
+    "culture": "The 100,000 VND note shows the Temple of Literature in Hanoi, a symbol of learning, scholarship and Vietnamese education.",
+    "tip": "A practical everyday note for food, transport and small shopping."
+  },
+  {
+    "denomination": 50000,
+    "label": "50,000 VND",
+    "color_hint": "pink",
+    "front": "Ho Chi Minh portrait",
+    "back": "Phu Van Lau Pavilion in Hue",
+    "culture": "The 50,000 VND note links to Hue, Vietnam's former imperial capital, and its historical architecture.",
+    "tip": "Very useful for cafes, snacks and short rides."
+  },
+  {
+    "denomination": 20000,
+    "label": "20,000 VND",
+    "color_hint": "blue",
+    "front": "Ho Chi Minh portrait",
+    "back": "Japanese Covered Bridge in Hoi An",
+    "culture": "The 20,000 VND note shows Hoi An's Japanese Covered Bridge, a well-known symbol of trade and cultural exchange.",
+    "tip": "Common for small meals, drinks and market purchases."
+  },
+  {
+    "denomination": 10000,
+    "label": "10,000 VND",
+    "color_hint": "brown",
+    "front": "Ho Chi Minh portrait",
+    "back": "Oil production scene",
+    "culture": "The 10,000 VND note represents Vietnam's economic development and industry.",
+    "tip": "Great for exact change and small street-food purchases."
+  },
+  {
+    "denomination": 5000,
+    "label": "5,000 VND",
+    "color_hint": "navy",
+    "front": "Ho Chi Minh portrait",
+    "back": "Tri An Hydropower Plant",
+    "culture": "The 5,000 VND note highlights infrastructure and energy development.",
+    "tip": "Useful for parking, small snacks and making exact payments."
+  },
+  {
+    "denomination": 2000,
+    "label": "2,000 VND",
+    "color_hint": "gray",
+    "front": "Ho Chi Minh portrait",
+    "back": "Textile factory",
+    "culture": "The 2,000 VND note reflects industry and labor themes in Vietnam's economy.",
+    "tip": "Small note for rounding payments or exact change."
+  },
+  {
+    "denomination": 1000,
+    "label": "1,000 VND",
+    "color_hint": "lightgray",
+    "front": "Ho Chi Minh portrait",
+    "back": "Elephant logging scene",
+    "culture": "The 1,000 VND note is less common in tourist areas but helps with very exact cash totals.",
+    "tip": "Keep a few for small exact-change situations."
+  }
 ]

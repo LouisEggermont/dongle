@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import json
 from html import escape
 from pathlib import Path
@@ -80,11 +81,16 @@ def note_asset(denomination: int) -> str:
 
 
 def render_header(title: str, subtitle: str) -> None:
+    logo_svg = (ASSET_DIR / "logo.svg").read_text(encoding="utf-8")
+    svg_base64 = base64.b64encode(logo_svg.encode("utf-8")).decode("ascii")
+    logo_src = f"data:image/svg+xml;base64,{svg_base64}"
     st.markdown(
         f"""
-        <div class="">
-            <h1>{title}</h1>
-
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+            <img src="{logo_src}" alt="logo" style="width:3rem;height:auto;display:block;" />
+            <div>
+                <h1 style="margin:0;">{escape(title)}</h1>
+            </div>
         </div>
         """,
         unsafe_allow_html=True,

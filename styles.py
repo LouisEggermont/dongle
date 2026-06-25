@@ -53,6 +53,55 @@ def apply_styles() -> None:
             padding-right: 1rem;
         }
 
+        .page-header {
+            display: grid;
+            grid-template-columns: 3rem minmax(0, 1fr);
+            align-items: center;
+            gap: 0.7rem;
+            margin: 0.25rem 0 0.85rem 0;
+        }
+
+        .page-logo,
+        .page-logo svg {
+            width: 3rem !important;
+            height: 3rem !important;
+        }
+
+        .page-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 999px;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+        }
+
+        .page-logo svg {
+            display: block;
+            flex: 0 0 auto;
+        }
+
+        .page-title {
+            min-width: 0;
+        }
+
+        .page-title h1 {
+            margin: 0 0 0.1rem 0 !important;
+            color: var(--ink) !important;
+            font-size: 1.65rem !important;
+            font-weight: 700 !important;
+            line-height: 1.1 !important;
+            letter-spacing: 0 !important;
+            overflow-wrap: anywhere;
+        }
+
+        .page-title p {
+            margin: 0 !important;
+            color: var(--muted) !important;
+            font-size: 0.9rem !important;
+            line-height: 1.35 !important;
+        }
+
         .bottom-nav-shell {
             position: fixed;
             left: 0;

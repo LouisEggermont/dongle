@@ -393,6 +393,18 @@ def apply_styles() -> None:
             overflow: hidden;
         }
 
+        .display-settings-wrap {
+            padding: 0.85rem 0 0.25rem;
+        }
+
+        .display-settings-wrap div[data-testid="stExpander"] {
+            margin: 0;
+        }
+
+        .display-settings-wrap div[data-testid="stExpanderDetails"] {
+            padding: 0.15rem 1rem 1rem;
+        }
+
         div[data-testid="stFileUploader"], div[data-testid="stCameraInput"] {
             background: var(--surface);
             border: 1px dashed #cbd5e1;

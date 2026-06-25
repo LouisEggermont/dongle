@@ -62,22 +62,55 @@ if "detected" not in st.session_state:
     st.session_state.detected = {}
 if "nav" not in st.session_state:
     st.session_state.nav = "Wallet"
+if "bill_rendering" not in st.session_state:
+    st.session_state.bill_rendering = "Simplified"
 
 
 def persist_wallet() -> None:
     save_wallet(st.session_state.wallet)
 
 
-# def note_asset(denomination: int) -> str:
-#     return str(ASSET_DIR / f"{denomination}.jpg")
-
 def note_asset(denomination: int) -> str:
-    for ext in (".jpg", ".png", ".svg"):
-        path = ASSET_DIR / f"{denomination}{ext}"
+    if st.session_state.bill_rendering == "Simplified":
+        asset_candidates = [
+            f"{denomination}.jpg",
+            f"{denomination}.png",
+            f"{denomination}.svg",
+            f"note_{denomination}.jpg",
+            f"note_{denomination}.png",
+            f"note_{denomination}.svg",
+        ]
+    else:
+        asset_candidates = [
+            f"note_{denomination}.jpg",
+            f"note_{denomination}.png",
+            f"note_{denomination}.svg",
+            f"{denomination}.svg",
+            f"{denomination}.png",
+            f"{denomination}.jpg",
+        ]
+
+    for filename in asset_candidates:
+        path = ASSET_DIR / filename
         if path.exists():
             return str(path)
 
     raise FileNotFoundError(f"No image found for denomination {denomination}")
+
+
+def render_bill_style_control() -> None:
+    st.markdown('<div class="display-settings-wrap">', unsafe_allow_html=True)
+    with st.expander("Display settings"):
+        selected = st.segmented_control(
+            "Bill style",
+            ["Simplified", "Realistic"],
+            default=st.session_state.bill_rendering,
+            key="bill_style_control",
+        )
+        if selected and selected != st.session_state.bill_rendering:
+            st.session_state.bill_rendering = selected
+            st.rerun()
+    st.markdown("</div>", unsafe_allow_html=True)
 
 
 def render_header(title: str, subtitle: str) -> None:
@@ -177,6 +210,7 @@ def render_note_line(denomination: int, count: int, editable: bool = False) -> N
 def screen_wallet() -> None:
     render_header("Your Wallet", "")
     render_balance_card()
+    render_bill_style_control()
 
     st.markdown('<div class="section-title">Your cash</div>', unsafe_allow_html=True)
     for denom in DENOMINATIONS:

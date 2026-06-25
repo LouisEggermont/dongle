@@ -29,11 +29,16 @@ apply_styles()
 
 
 @st.cache_data
-def load_banknotes() -> list[dict]:
-    return json.loads(DATA_PATH.read_text(encoding="utf-8"))
+def load_banknote_data() -> dict:
+    data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+    if isinstance(data, list):
+        return {"common": {}, "bills": data}
+    return data
 
 
-BANKNOTES = load_banknotes()
+BANKNOTE_DATA = load_banknote_data()
+BANKNOTE_COMMON = BANKNOTE_DATA.get("common", {})
+BANKNOTES = BANKNOTE_DATA.get("bills", [])
 BANKNOTE_MAP = {item["denomination"]: item for item in BANKNOTES}
 
 
@@ -64,9 +69,9 @@ def note_asset(denomination: int) -> str:
 def render_header(title: str, subtitle: str) -> None:
     st.markdown(
         f"""
-        <div class="hero">
+        <div class="">
             <h1>{title}</h1>
-            <div class="muted">{subtitle}</div>
+
         </div>
         """,
         unsafe_allow_html=True,
@@ -93,11 +98,11 @@ def render_balance_card() -> None:
 
 
 def render_note_line(denomination: int, count: int, editable: bool = False) -> None:
-    with st.container(border=True):
-        left, mid, right = st.columns([1.1, 2.2, 0.9])
+    with st.container():
+        left, right = st.columns([1.1, 0.9])
         left.image(note_asset(denomination), width="stretch")
-        mid.markdown(f"**{BANKNOTE_MAP[denomination]['label']}**")
-        mid.caption(BANKNOTE_MAP[denomination]["tip"])
+        # mid.markdown(f"**{BANKNOTE_MAP[denomination]['label']}**")
+        # mid.caption(BANKNOTE_MAP[denomination]["tip"])
         if editable:
             new_count = right.number_input(
                 "Qty",
@@ -119,12 +124,13 @@ def render_note_line(denomination: int, count: int, editable: bool = False) -> N
 
 
 def screen_wallet() -> None:
-    render_header("Dongle", "Your Vietnamese cash wallet — count, scan, and pay in seconds.")
+    render_header("Your Wallet", "")
     render_balance_card()
 
     st.markdown('<div class="section-title">Your cash</div>', unsafe_allow_html=True)
     for denom in DENOMINATIONS:
         render_note_line(denom, st.session_state.wallet.get(str(denom), 0), editable=True)
+        st.markdown("<div style='margin-top:2rem'></div>", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
     if col1.button("Save wallet", type="primary", width="stretch"):
@@ -179,6 +185,7 @@ def screen_scan() -> None:
 def screen_pay() -> None:
     render_header("Payment Assistant", "Enter a bill amount and get the simplest way to pay with your cash.")
     render_balance_card()
+    st.markdown("<div style='margin-top:2rem'></div>", unsafe_allow_html=True)
 
     price = st.number_input("Purchase amount (VND)", min_value=0, step=1000, value=185000)
     options = best_payment_options(st.session_state.wallet, int(price))
@@ -211,12 +218,37 @@ def screen_explore() -> None:
         format_func=lambda d: BANKNOTE_MAP[d]["label"],
     )
     item = BANKNOTE_MAP[selected]
+    back = item.get("back", {})
+    if isinstance(back, str):
+        back = {"title": back, "location": "", "description": ""}
+
+    common_front = BANKNOTE_COMMON.get("front", {})
+    series_key = item.get("series")
+    series = BANKNOTE_COMMON.get("series", {}).get(series_key, {})
+
     with st.container(border=True):
         st.image(note_asset(selected), width="stretch")
         st.subheader(item["label"])
+        if series:
+            introduced = series.get("introduced")
+            introduced_text = f", introduced in {introduced}" if introduced else ""
+            st.caption(f"{series.get('material', series_key.title())}{introduced_text}")
+
         st.markdown(f"**Front:** {item['front']}")
-        st.markdown(f"**Back:** {item['back']}")
+        if common_front.get("description"):
+            with st.expander(common_front.get("title", "Common front details")):
+                st.write(common_front["description"])
+
+        st.markdown(f"**Back:** {back.get('title', '')}")
+        if back.get("location"):
+            st.caption(back["location"])
+        if back.get("description"):
+            st.write(back["description"])
+
         st.write(item["culture"])
+        if series.get("description"):
+            with st.expander("About this note series"):
+                st.write(series["description"])
         st.info(item["tip"])
 
 

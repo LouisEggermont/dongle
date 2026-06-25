@@ -1,83 +1,149 @@
-[
-  {
-    "denomination": 500000,
-    "label": "500,000 VND",
-    "color_hint": "teal",
-    "front": "Ho Chi Minh portrait",
-    "back": "Kim Lien village, Nghe An - birthplace of Ho Chi Minh.",
-    "culture": "The 500,000 VND note is the highest common denomination. The back shows Kim Lien village, associated with Ho Chi Minh's childhood and Vietnamese national history.Symbolizes respect for origins and the humble beginnings of Vietnam’s most influential leader.",
-    "tip": "Useful for hotels, larger restaurants and bigger purchases. Avoid using it for very small street-market items if you have smaller notes."
+{
+  "common": {
+    "front": {
+      "title": "Portrait of Ho Chi Minh",
+      "description": "Every modern Vietnamese banknote features Ho Chi Minh, the founding father of modern Vietnam. His portrait symbolizes national unity, independence, and the country's revolutionary history. Around the portrait are advanced anti-counterfeiting features including watermarks, transparent windows, holograms, microprinting, and other security elements depending on the denomination."
+    },
+    "series": {
+      "polymer": {
+        "material": "Polymer",
+        "introduced": 2003,
+        "denominations": [500000, 200000, 100000, 50000, 20000, 10000],
+        "description": "Introduced in 2003 to improve durability, cleanliness, and counterfeit resistance. These denominations represent the daily financial lifeblood of modern Vietnam and are the notes tourists encounter most frequently."
+      },
+      "cotton": {
+        "material": "Cotton paper",
+        "denominations": [5000, 2000, 1000],
+        "description": "These smaller paper notes remain in circulation primarily for inexpensive purchases, street markets, parking, public restrooms, and exact change."
+      }
+    }
   },
-  {
-    "denomination": 200000,
-    "label": "200,000 VND",
-    "color_hint": "red",
-    "front": "Ho Chi Minh portrait",
-    "back": "Ha Long Bay",
-    "culture": "The 200,000 VND note features Ha Long Bay, a famous UNESCO-listed natural landscape in northern Vietnam.",
-    "tip": "Good for restaurants, day trips, groceries and taxi rides."
-  },
-  {
-    "denomination": 100000,
-    "label": "100,000 VND",
-    "color_hint": "green",
-    "front": "Ho Chi Minh portrait",
-    "back": "Temple of Literature, Hanoi - founded in 1070, Vietnam’s first national university.",
-    "culture": "The 100,000 VND note shows the Temple of Literature in Hanoi, a symbol of learning, scholarship and Vietnamese education.",
-    "tip": "A practical everyday note for food, transport and small shopping."
-  },
-  {
-    "denomination": 50000,
-    "label": "50,000 VND",
-    "color_hint": "pink",
-    "front": "Ho Chi Minh portrait",
-    "back": "Phu Van Lau Pavilion in Hue",
-    "culture": "The 50,000 VND note links to Hue, Vietnam's former imperial capital, and its historical architecture.",
-    "tip": "Very useful for cafes, snacks and short rides."
-  },
-  {
-    "denomination": 20000,
-    "label": "20,000 VND",
-    "color_hint": "blue",
-    "front": "Ho Chi Minh portrait",
-    "back": "Japanese Covered Bridge in Hoi An",
-    "culture": "The 20,000 VND note shows Hoi An's Japanese Covered Bridge, a well-known symbol of trade and cultural exchange.",
-    "tip": "Common for small meals, drinks and market purchases."
-  },
-  {
-    "denomination": 10000,
-    "label": "10,000 VND",
-    "color_hint": "brown",
-    "front": "Ho Chi Minh portrait",
-    "back": "Oil production scene",
-    "culture": "The 10,000 VND note represents Vietnam's economic development and industry.",
-    "tip": "Great for exact change and small street-food purchases."
-  },
-  {
-    "denomination": 5000,
-    "label": "5,000 VND",
-    "color_hint": "navy",
-    "front": "Ho Chi Minh portrait",
-    "back": "Tri An Hydropower Plant",
-    "culture": "The 5,000 VND note highlights infrastructure and energy development.",
-    "tip": "Useful for parking, small snacks and making exact payments."
-  },
-  {
-    "denomination": 2000,
-    "label": "2,000 VND",
-    "color_hint": "gray",
-    "front": "Ho Chi Minh portrait",
-    "back": "Textile factory",
-    "culture": "The 2,000 VND note reflects industry and labor themes in Vietnam's economy.",
-    "tip": "Small note for rounding payments or exact change."
-  },
-  {
-    "denomination": 1000,
-    "label": "1,000 VND",
-    "color_hint": "lightgray",
-    "front": "Ho Chi Minh portrait",
-    "back": "Elephant logging scene",
-    "culture": "The 1,000 VND note is less common in tourist areas but helps with very exact cash totals.",
-    "tip": "Keep a few for small exact-change situations."
-  }
-]
+  "bills": [
+    {
+      "denomination": 500000,
+      "label": "500,000 VND",
+      "series": "polymer",
+      "color_hint": "teal",
+      "front": "Portrait of Ho Chi Minh",
+      "back": {
+        "title": "Kim Lien Village",
+        "location": "Nghe An Province",
+        "description": "Kim Lien is the birthplace and childhood home of Ho Chi Minh. The village reflects his humble beginnings before becoming Vietnam's revolutionary leader."
+      },
+      "culture": "The highest commonly circulated Vietnamese banknote honors the birthplace of Ho Chi Minh. It symbolizes respect for Vietnam's origins, humility, and the early life of the nation's most influential leader, reinforcing the importance of remembering one's roots.",
+      "tip": "Commonly used for hotels, larger restaurants, shopping, and higher-value purchases. Many small vendors may not have enough change."
+    },
+    {
+      "denomination": 200000,
+      "label": "200,000 VND",
+      "series": "polymer",
+      "color_hint": "red",
+      "front": "Portrait of Ho Chi Minh",
+      "back": {
+        "title": "Dinh Huong Islet (Incense Burner Islet)",
+        "location": "Ha Long Bay",
+        "description": "The famous limestone islet located within the UNESCO World Heritage Site of Ha Long Bay."
+      },
+      "culture": "The note celebrates one of Vietnam's most iconic natural landscapes. Ha Long Bay represents the country's natural beauty, geological heritage, and national pride, while also highlighting one of Vietnam's most internationally recognized destinations.",
+      "tip": "Ideal for restaurants, groceries, taxis, excursions, and medium-sized purchases."
+    },
+    {
+      "denomination": 100000,
+      "label": "100,000 VND",
+      "series": "polymer",
+      "color_hint": "green",
+      "front": "Portrait of Ho Chi Minh",
+      "back": {
+        "title": "Temple of Literature (Văn Miếu - Quốc Tử Giám)",
+        "location": "Hanoi",
+        "description": "Founded in 1070, this was Vietnam's first national university and remains one of the country's most important cultural and educational monuments."
+      },
+      "culture": "The Temple of Literature embodies Vietnam's deep respect for education, scholarship, Confucian values, and lifelong learning. It reflects centuries of academic tradition and cultural development.",
+      "tip": "A very practical everyday note for meals, transportation, shopping, and attractions."
+    },
+    {
+      "denomination": 50000,
+      "label": "50,000 VND",
+      "series": "polymer",
+      "color_hint": "pink",
+      "front": "Portrait of Ho Chi Minh",
+      "back": {
+        "title": "Nghenh Luong Pavilion & Phu Van Lau",
+        "location": "Hue",
+        "description": "Historic Nguyen Dynasty buildings located beside the Perfume River in Vietnam's former imperial capital."
+      },
+      "culture": "The note celebrates Vietnam's imperial heritage through the architecture of the Nguyen Dynasty. It reflects the country's royal history, traditional architecture, and the historical significance of Hue as the imperial capital.",
+      "tip": "Excellent for cafés, museums, local restaurants, and short taxi rides."
+    },
+    {
+      "denomination": 20000,
+      "label": "20,000 VND",
+      "series": "polymer",
+      "color_hint": "blue",
+      "front": "Portrait of Ho Chi Minh",
+      "back": {
+        "title": "Japanese Covered Bridge (Chùa Cầu)",
+        "location": "Hoi An",
+        "description": "Constructed by Japanese merchants during the 17th century, this bridge has become the symbol of Hoi An Ancient Town."
+      },
+      "culture": "The bridge represents centuries of international trade, cultural exchange, and cooperation between Vietnamese, Japanese, Chinese, and European merchants. It symbolizes Vietnam's long history as an important trading nation.",
+      "tip": "Very common for street food, drinks, markets, cafés, and convenience stores."
+    },
+    {
+      "denomination": 10000,
+      "label": "10,000 VND",
+      "series": "polymer",
+      "color_hint": "brown",
+      "front": "Portrait of Ho Chi Minh",
+      "back": {
+        "title": "Bach Ho (White Tiger) Oilfield",
+        "location": "Cuu Long Basin",
+        "description": "One of Vietnam's largest offshore oil fields and an important contributor to the country's economic development."
+      },
+      "culture": "The note represents Vietnam's industrial modernization, offshore energy production, and maritime economy. It reflects the nation's progress in developing modern industries while emphasizing economic growth.",
+      "tip": "Useful for small meals, street food, drinks, parking, and exact change."
+    },
+    {
+      "denomination": 5000,
+      "label": "5,000 VND",
+      "series": "cotton",
+      "color_hint": "navy",
+      "front": "Portrait of Ho Chi Minh",
+      "back": {
+        "title": "Tri An Hydropower Plant",
+        "location": "Dong Nai River",
+        "description": "One of Vietnam's major hydroelectric facilities supplying electricity to southern Vietnam."
+      },
+      "culture": "The hydropower plant symbolizes Vietnam's modernization through electrification, infrastructure development, and industrial growth, reflecting the country's investment in sustainable energy production.",
+      "tip": "Useful for parking, small snacks, local markets, and exact payments."
+    },
+    {
+      "denomination": 2000,
+      "label": "2,000 VND",
+      "series": "cotton",
+      "color_hint": "gray",
+      "front": "Portrait of Ho Chi Minh",
+      "back": {
+        "title": "Nam Dinh Textile Factory",
+        "location": "Nam Dinh",
+        "description": "Depicts female textile workers at one of Vietnam's historic industrial factories."
+      },
+      "culture": "The note honors Vietnam's industrial workforce, particularly women who played a significant role in the country's manufacturing sector. It celebrates labor, perseverance, and economic development.",
+      "tip": "Mainly useful for exact change and rounding small purchases."
+    },
+    {
+      "denomination": 1000,
+      "label": "1,000 VND",
+      "series": "cotton",
+      "color_hint": "lightgray",
+      "front": "Portrait of Ho Chi Minh",
+      "back": {
+        "title": "Timbering Operation with Elephants",
+        "location": "Central Highlands",
+        "description": "Depicts traditional logging work using elephants, a historical practice in Vietnam's Central Highlands."
+      },
+      "culture": "This note highlights Vietnam's rural workforce, forestry traditions, and the cultural heritage of indigenous communities in the Central Highlands. Although this practice has largely disappeared today, it represents an important part of Vietnam's historical relationship with its forests and local cultures.",
+      "tip": "Rarely needed by tourists but useful for exact cash totals."
+    }
+  ]
+}

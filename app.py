@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Dict
 
 import streamlit as st
+from streamlit_option_menu import option_menu
 
 from model import predict_banknotes
 from payment import best_payment_options
@@ -17,12 +18,11 @@ DATA_PATH = BASE / "data" / "banknotes.json"
 ASSET_DIR = BASE / "assets"
 
 NAV_ITEMS = [
-    ("Wallet", "💰", "Wallet"),
-    ("Scan", "📷", "Scan"),
-    ("Pay", "💳", "Pay"),
-    ("Explore", "🗺️", "Explore"),
+    ("Wallet", "wallet2"),
+    ("Scan", "camera"),
+    ("Pay", "credit-card"),
+    ("Explore", "geo-alt"),
 ]
-NAV_LABELS = [f"{icon}\n{label}" for _, icon, label in NAV_ITEMS]
 
 st.set_page_config(page_title="Dongle", page_icon="🇻🇳", layout="centered")
 apply_styles()
@@ -53,13 +53,9 @@ def persist_wallet() -> None:
 #     return str(ASSET_DIR / f"{denomination}.jpg")
 
 def note_asset(denomination: int) -> str:
-
     for ext in (".jpg", ".png", ".svg"):
-
         path = ASSET_DIR / f"{denomination}{ext}"
-
         if path.exists():
-
             return str(path)
 
     raise FileNotFoundError(f"No image found for denomination {denomination}")
@@ -99,7 +95,7 @@ def render_balance_card() -> None:
 def render_note_line(denomination: int, count: int, editable: bool = False) -> None:
     with st.container(border=True):
         left, mid, right = st.columns([1.1, 2.2, 0.9])
-        left.image(note_asset(denomination), use_container_width=True)
+        left.image(note_asset(denomination), width="stretch")
         mid.markdown(f"**{BANKNOTE_MAP[denomination]['label']}**")
         mid.caption(BANKNOTE_MAP[denomination]["tip"])
         if editable:
@@ -131,10 +127,10 @@ def screen_wallet() -> None:
         render_note_line(denom, st.session_state.wallet.get(str(denom), 0), editable=True)
 
     col1, col2 = st.columns(2)
-    if col1.button("Save wallet", type="primary", use_container_width=True):
+    if col1.button("Save wallet", type="primary", width="stretch"):
         persist_wallet()
         st.toast("Wallet saved locally")
-    if col2.button("Reset wallet", use_container_width=True):
+    if col2.button("Reset wallet", width="stretch"):
         st.session_state.wallet = reset_wallet()
         st.rerun()
 
@@ -155,8 +151,8 @@ def screen_scan() -> None:
         )
 
     if image_file:
-        st.image(image_file, caption="Input image", use_container_width=True)
-        if st.button("Run AI detection", type="primary", use_container_width=True):
+        st.image(image_file, caption="Input image", width="stretch")
+        if st.button("Run AI detection", type="primary", width="stretch"):
             st.session_state.detected = predict_banknotes(image_file)
             st.rerun()
 
@@ -169,13 +165,13 @@ def screen_scan() -> None:
         detected_total = sum(k * v for k, v in detected.items())
         st.success(f"Detected total: {format_vnd(detected_total)}")
         c1, c2 = st.columns(2)
-        if c1.button("Add to wallet", type="primary", use_container_width=True):
+        if c1.button("Add to wallet", type="primary", width="stretch"):
             st.session_state.wallet = add_counts(st.session_state.wallet, detected)
             persist_wallet()
             st.session_state.detected = {}
             st.toast("Detected cash added")
             st.rerun()
-        if c2.button("Clear detection", use_container_width=True):
+        if c2.button("Clear detection", width="stretch"):
             st.session_state.detected = {}
             st.rerun()
 
@@ -203,7 +199,7 @@ def screen_pay() -> None:
                 cols = st.columns(min(3, max(1, len(opt["notes"]))))
                 for i, (denom, qty) in enumerate(opt["notes"].items()):
                     with cols[i % len(cols)]:
-                        st.image(note_asset(denom), use_container_width=True)
+                        st.image(note_asset(denom), width="stretch")
                         st.markdown(f"**{BANKNOTE_MAP[denom]['label']} × {qty}**")
 
 
@@ -216,7 +212,7 @@ def screen_explore() -> None:
     )
     item = BANKNOTE_MAP[selected]
     with st.container(border=True):
-        st.image(note_asset(selected), use_container_width=True)
+        st.image(note_asset(selected), width="stretch")
         st.subheader(item["label"])
         st.markdown(f"**Front:** {item['front']}")
         st.markdown(f"**Back:** {item['back']}")
@@ -231,16 +227,56 @@ SCREENS = {
     "Explore": screen_explore,
 }
 
-SCREENS[st.session_state.nav]()
 
-selected_nav = st.radio(
-    "Navigation",
-    [key for key, _, _ in NAV_ITEMS],
-    format_func=lambda key: NAV_LABELS[[k for k, _, _ in NAV_ITEMS].index(key)],
-    index=[key for key, _, _ in NAV_ITEMS].index(st.session_state.nav),
-    horizontal=True,
-    label_visibility="collapsed",
-)
-if selected_nav != st.session_state.nav:
-    st.session_state.nav = selected_nav
-    st.rerun()
+def render_bottom_nav() -> None:
+    nav_labels = [label for label, _ in NAV_ITEMS]
+    selected_nav = option_menu(
+        menu_title=None,
+        options=nav_labels,
+        icons=[icon for _, icon in NAV_ITEMS],
+        default_index=nav_labels.index(st.session_state.nav),
+        orientation="horizontal",
+        styles={
+            "container": {
+                "padding": "0.45rem 0.55rem",
+                "background-color": "transparent",
+            },
+            "nav": {
+                "display": "grid",
+                "grid-template-columns": f"repeat({len(NAV_ITEMS)}, minmax(0, 1fr))",
+                "gap": "0.25rem",
+                "margin": "0",
+            },
+            "nav-link": {
+                "display": "flex",
+                "flex-direction": "column",
+                "align-items": "center",
+                "justify-content": "center",
+                "gap": "0.12rem",
+                "min-height": "3.35rem",
+                "padding": "0.35rem 0.2rem",
+                "border-radius": "16px",
+                "color": "#475569",
+                "font-size": "0.76rem",
+                "font-weight": "600",
+                "text-align": "center",
+                "white-space": "nowrap",
+            },
+            "nav-link-selected": {
+                "background-color": "#ccfbf1",
+                "color": "#0f766e",
+            },
+            "icon": {
+                "font-size": "1.18rem",
+                "margin": "0",
+            },
+        },
+        key="bottom_nav",
+    )
+
+    if selected_nav != st.session_state.nav:
+        st.session_state.nav = selected_nav
+
+
+render_bottom_nav()
+SCREENS[st.session_state.nav]()

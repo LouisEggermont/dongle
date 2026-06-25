@@ -8,12 +8,13 @@ def apply_styles() -> None:
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
 
         :root {
+            color-scheme: light;
             --bg: #eef1f5;
             --surface: #ffffff;
             --ink: #0f172a;
-            --muted: #64748b;
-            --brand: #0d9488;
-            --brand-dark: #0f766e;
+            --muted: #475569;
+            --brand: #0f766e;
+            --brand-dark: #115e59;
             --brand-soft: #ccfbf1;
             --border: #e2e8f0;
             --shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
@@ -25,6 +26,10 @@ def apply_styles() -> None:
             font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
+        html, body, .stApp {
+            color: var(--ink);
+        }
+
         #MainMenu, footer, header[data-testid="stHeader"] {
             visibility: hidden;
             height: 0;
@@ -34,12 +39,58 @@ def apply_styles() -> None:
             background: linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
         }
 
+        div[data-testid="stAppViewContainer"],
+        div[data-testid="stSidebarContent"],
+        div[data-testid="stHeader"] {
+            color-scheme: light;
+        }
+
         .block-container {
             max-width: 480px;
             padding-top: 1rem;
-            padding-bottom: calc(var(--nav-height) + var(--safe-bottom) + 1.5rem);
+            padding-bottom: calc(var(--nav-height) + var(--safe-bottom) + 2rem);
             padding-left: 1rem;
             padding-right: 1rem;
+        }
+
+        .bottom-nav-shell {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 999;
+            height: calc(var(--nav-height) + var(--safe-bottom));
+            padding: 0 1rem var(--safe-bottom);
+            background: rgba(255, 255, 255, 0.94);
+            border-top: 1px solid var(--border);
+            box-shadow: 0 -10px 28px rgba(15, 23, 42, 0.08);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+        iframe[title*="streamlit_option_menu"] {
+            position: fixed !important;
+            left: 50% !important;
+            right: auto !important;
+            bottom: var(--safe-bottom) !important;
+            z-index: 1000 !important;
+            display: block;
+            width: min(480px, calc(100vw - 2rem)) !important;
+            height: var(--nav-height) !important;
+            margin: 0 !important;
+            transform: translateX(-50%);
+            border: 0 !important;
+            border-radius: 18px !important;
+            background: transparent !important;
+        }
+
+        div[data-testid="stIFrame"]:has(iframe[title*="streamlit_option_menu"]),
+        div[data-testid="stCustomComponentV1"]:has(iframe[title*="streamlit_option_menu"]) {
+            height: 0 !important;
+            min-height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: visible !important;
         }
 
         .hero {
@@ -75,7 +126,7 @@ def apply_styles() -> None:
         }
 
         .balance-card {
-            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+            background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand) 100%);
             border-radius: 22px;
             padding: 1.15rem 1.2rem;
             color: white;
@@ -164,7 +215,7 @@ def apply_styles() -> None:
         }
 
         .stButton > button[kind="primary"]:hover {
-            background: linear-gradient(135deg, #115e59, var(--brand-dark));
+            background: linear-gradient(135deg, #134e4a, var(--brand-dark));
             border: none;
             color: white;
         }
@@ -197,83 +248,6 @@ def apply_styles() -> None:
             background: #e2e8f0;
             border-radius: 999px;
             padding: 0.2rem;
-        }
-
-        .bottom-nav-shell {
-            position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: calc(var(--nav-height) + var(--safe-bottom));
-            padding-bottom: var(--safe-bottom);
-            background: rgba(255, 255, 255, 0.92);
-            border-top: 1px solid var(--border);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            z-index: 999;
-            box-shadow: 0 -8px 24px rgba(15, 23, 42, 0.06);
-        }
-
-        div[data-testid="stRadio"] {
-            position: fixed;
-            left: 50%;
-            transform: translateX(-50%);
-            bottom: calc(8px + var(--safe-bottom));
-            z-index: 1000;
-            width: min(480px, calc(100vw - 1rem));
-            margin: 0;
-            padding: 0;
-            background: transparent;
-            border: none;
-            box-shadow: none;
-        }
-
-        div[data-testid="stRadio"] > label {
-            display: none !important;
-        }
-
-        div[data-testid="stRadio"] div[role="radiogroup"] {
-            display: grid !important;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.25rem;
-            width: 100%;
-            background: transparent;
-        }
-
-        div[data-testid="stRadio"] div[role="radiogroup"] > label {
-            display: flex !important;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.15rem;
-            min-height: 58px;
-            margin: 0 !important;
-            padding: 0.45rem 0.25rem !important;
-            border-radius: 16px !important;
-            border: none !important;
-            background: transparent !important;
-            color: var(--muted) !important;
-            font-size: 0.68rem !important;
-            font-weight: 600 !important;
-            letter-spacing: 0.01em;
-            transition: background 0.15s ease, color 0.15s ease;
-        }
-
-        div[data-testid="stRadio"] div[role="radiogroup"] > label span {
-            white-space: pre-line;
-            text-align: center;
-            line-height: 1.15;
-        }
-
-        div[data-testid="stRadio"] div[role="radiogroup"] > label:has(input:checked) {
-            background: var(--brand-soft) !important;
-            color: var(--brand-dark) !important;
-        }
-
-        div[data-testid="stRadio"] div[role="radiogroup"] > label input {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
         }
 
         div[data-testid="stNumberInput"] input {

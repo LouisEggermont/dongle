@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from html import escape
 from pathlib import Path
 from typing import Dict
 
@@ -23,6 +24,18 @@ NAV_ITEMS = [
     ("Pay", "credit-card"),
     ("Explore", "geo-alt"),
 ]
+
+NOTE_ACCENTS = {
+    "teal": "#0f766e",
+    "red": "#b91c1c",
+    "green": "#15803d",
+    "pink": "#be185d",
+    "blue": "#1d4ed8",
+    "brown": "#92400e",
+    "navy": "#1e3a8a",
+    "gray": "#475569",
+    "lightgray": "#64748b",
+}
 
 st.set_page_config(page_title="Dongle", page_icon="🇻🇳", layout="centered")
 apply_styles()
@@ -91,6 +104,38 @@ def render_balance_card() -> None:
                 <div class="fx-chip">EUR<strong>€{fx['EUR']:.2f}</strong></div>
                 <div class="fx-chip">GBP<strong>£{fx['GBP']:.2f}</strong></div>
             </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def note_accent(item: dict) -> str:
+    return NOTE_ACCENTS.get(item.get("color_hint", ""), "#0f766e")
+
+
+def render_info_block(label: str, title: str, body: str, meta: str = "") -> None:
+    meta_html = f'<div class="explore-meta">{escape(meta)}</div>' if meta else ""
+    st.markdown(
+        f"""
+        <div class="explore-info-block">
+            <div class="explore-kicker">{escape(label)}</div>
+            <h3>{escape(title)}</h3>
+            {meta_html}
+            <p>{escape(body)}</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_culture_block(body: str) -> None:
+    st.markdown(
+        f"""
+        <div class="explore-culture-block">
+            <div class="explore-kicker">Cultural meaning</div>
+            <h3>Why this scene matters</h3>
+            <p>{escape(body)}</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -225,31 +270,57 @@ def screen_explore() -> None:
     common_front = BANKNOTE_COMMON.get("front", {})
     series_key = item.get("series")
     series = BANKNOTE_COMMON.get("series", {}).get(series_key, {})
+    material = series.get("material", series_key.title() if series_key else "Banknote")
+    introduced = series.get("introduced")
+    introduced_text = f"Introduced {introduced}" if introduced else "In circulation"
+    back_title = back.get("title", "Back design")
+    back_location = back.get("location", "")
 
-    with st.container(border=True):
-        st.image(note_asset(selected), width="stretch")
-        st.subheader(item["label"])
-        if series:
-            introduced = series.get("introduced")
-            introduced_text = f", introduced in {introduced}" if introduced else ""
-            st.caption(f"{series.get('material', series_key.title())}{introduced_text}")
+    st.markdown(
+        f"""
+        <div class="explore-note-hero" style="--note-accent: {note_accent(item)};">
+            <div>
+                <div class="explore-kicker">Selected note</div>
+                <h2>{escape(item["label"])}</h2>
+                <div class="explore-chip-row">
+                    <span>{escape(material)}</span>
+                    <span>{escape(introduced_text)}</span>
+                    <span>{escape(back_location or back_title)}</span>
+                </div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.image(note_asset(selected), width="stretch")
 
-        st.markdown(f"**Front:** {item['front']}")
-        if common_front.get("description"):
-            with st.expander(common_front.get("title", "Common front details")):
-                st.write(common_front["description"])
+    render_info_block(
+        "Front",
+        item.get("front", "Portrait of Ho Chi Minh"),
+        common_front.get("description", ""),
+        common_front.get("title", ""),
+    )
+    render_info_block(
+        "Back",
+        back_title,
+        back.get("description", ""),
+        back_location,
+    )
+    render_culture_block(item.get("culture", ""))
 
-        st.markdown(f"**Back:** {back.get('title', '')}")
-        if back.get("location"):
-            st.caption(back["location"])
-        if back.get("description"):
-            st.write(back["description"])
+    st.markdown(
+        f"""
+        <div class="explore-tip">
+            <div class="explore-kicker">Practical use</div>
+            <p>{escape(item.get("tip", ""))}</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
-        st.write(item["culture"])
-        if series.get("description"):
-            with st.expander("About this note series"):
-                st.write(series["description"])
-        st.info(item["tip"])
+    if series.get("description"):
+        with st.expander(f"About {material.lower()} notes"):
+            st.write(series["description"])
 
 
 SCREENS = {

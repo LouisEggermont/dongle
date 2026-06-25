@@ -125,6 +125,113 @@ def apply_styles() -> None:
             margin: 1.25rem 0 0.65rem 0;
         }
 
+        .explore-note-hero {
+            position: relative;
+            overflow: hidden;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1rem 1rem 0.95rem 1rem;
+            margin: 0.85rem 0 0.75rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .explore-note-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 0.42rem;
+            background: var(--note-accent, var(--brand));
+        }
+
+        .explore-note-hero h2 {
+            margin: 0.15rem 0 0.65rem 0;
+            color: var(--ink);
+            font-size: 1.75rem;
+            font-weight: 700;
+            line-height: 1.08;
+        }
+
+        .explore-kicker {
+            color: var(--muted);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .explore-chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .explore-chip-row span {
+            display: inline-flex;
+            align-items: center;
+            min-height: 1.85rem;
+            padding: 0.3rem 0.55rem;
+            border-radius: 999px;
+            background: #f1f5f9;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.78rem;
+            font-weight: 700;
+            line-height: 1.15;
+        }
+
+        .explore-info-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 0.95rem 1rem;
+            box-shadow: var(--shadow);
+            margin: 0.75rem 0;
+        }
+
+        .explore-culture-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 0.95rem 1rem;
+            box-shadow: var(--shadow);
+            margin: 0.75rem 0;
+        }
+
+        .explore-info-block h3,
+        .explore-culture-block h3 {
+            margin: 0.22rem 0 0.15rem 0;
+            color: var(--ink);
+            font-size: 1.05rem;
+            font-weight: 700;
+            line-height: 1.25;
+        }
+
+        .explore-info-block p,
+        .explore-culture-block p,
+        .explore-tip p {
+            margin: 0.55rem 0 0 0;
+            color: var(--ink);
+            font-size: 0.94rem;
+            line-height: 1.55;
+        }
+
+        .explore-meta {
+            color: var(--muted);
+            font-size: 0.82rem;
+            font-weight: 600;
+            line-height: 1.35;
+        }
+
+        .explore-tip {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            border-radius: 18px;
+            padding: 0.95rem 1rem;
+            margin: 0.75rem 0 0.9rem 0;
+        }
+
         .balance-card {
             background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand) 100%);
             border-radius: 22px;

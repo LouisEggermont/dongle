@@ -13,7 +13,7 @@ from model import predict_banknotes
 from payment import best_payment_options
 from storage import load_wallet, reset_wallet, save_wallet
 from styles import apply_styles
-from wallet import DENOMINATIONS, add_counts, convert_vnd, format_vnd, total_vnd
+from wallet import DENOMINATIONS, add_counts, convert_vnd, format_vnd, subtract_counts, total_vnd
 
 BASE = Path(__file__).parent
 DATA_PATH = BASE / "data" / "banknotes.json"
@@ -293,6 +293,15 @@ def screen_pay() -> None:
                     with cols[i % len(cols)]:
                         st.image(note_asset(denom), width="stretch")
                         st.markdown(f"**{BANKNOTE_MAP[denom]['label']} × {qty}**")
+                if st.button("Pay with this option", type="primary", width="stretch", key=f"pay_option_{idx}"):
+                    try:
+                        st.session_state.wallet = subtract_counts(st.session_state.wallet, opt["notes"])
+                    except ValueError as exc:
+                        st.error(str(exc))
+                    else:
+                        persist_wallet()
+                        st.toast(f"Paid {format_vnd(opt['give'])} from wallet")
+                        st.rerun()
 
 
 def screen_explore() -> None:

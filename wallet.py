@@ -24,3 +24,16 @@ def add_counts(wallet: Dict[str, int], counts: Dict[int | str, int]) -> Dict[str
         if key in updated:
             updated[key] = max(0, int(updated[key]) + int(qty))
     return updated
+
+
+def subtract_counts(wallet: Dict[str, int], counts: Dict[int | str, int]) -> Dict[str, int]:
+    updated = dict(wallet)
+    for denom, qty in counts.items():
+        key = str(denom)
+        if key not in updated:
+            continue
+        remaining = int(updated[key]) - int(qty)
+        if remaining < 0:
+            raise ValueError(f"Not enough {key} VND notes in wallet")
+        updated[key] = remaining
+    return updated

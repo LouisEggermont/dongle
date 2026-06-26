@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import base64
 import json
+import mimetypes
 from html import escape
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 import streamlit as st
 from streamlit_option_menu import option_menu
@@ -64,6 +65,10 @@ if "nav" not in st.session_state:
     st.session_state.nav = "Wallet"
 if "bill_rendering" not in st.session_state:
     st.session_state.bill_rendering = "Simplified"
+if "explore_note_side" not in st.session_state:
+    st.session_state.explore_note_side = "Front"
+if "explore_selected_note" not in st.session_state:
+    st.session_state.explore_selected_note = None
 
 
 def persist_wallet() -> None:
@@ -96,6 +101,69 @@ def note_asset(denomination: int) -> str:
             return str(path)
 
     raise FileNotFoundError(f"No image found for denomination {denomination}")
+
+
+def note_back_asset(denomination: int) -> Optional[str]:
+    formatted = f"{denomination:,}"
+    asset_candidates = [
+        f"back_{denomination}.jpg",
+        f"back_{denomination}.png",
+        f"back_{denomination}.svg",
+        f"back_{formatted}.jpg",
+        f"back_{formatted}.png",
+        f"back_{formatted}.svg",
+        f"{denomination}_back.jpg",
+        f"{denomination}_back.png",
+        f"{denomination}_back.svg",
+        f"note_{denomination}_back.jpg",
+        f"note_{denomination}_back.png",
+        f"note_{denomination}_back.svg",
+    ]
+    for filename in asset_candidates:
+        path = ASSET_DIR / filename
+        if path.exists():
+            return str(path)
+    return None
+
+
+def image_data_uri(path: str) -> str:
+    mime_type = mimetypes.guess_type(path)[0] or "application/octet-stream"
+    encoded = base64.b64encode(Path(path).read_bytes()).decode("ascii")
+    return f"data:{mime_type};base64,{encoded}"
+
+
+def render_banknote_flipper(denomination: int, label: str, side: str, back_title: str) -> None:
+    front_path = note_asset(denomination)
+    back_path = note_back_asset(denomination)
+    image_path = back_path if side == "Back" and back_path else front_path
+    side_class = "is-back" if side == "Back" else "is-front"
+
+    if side == "Back" and not back_path:
+        st.markdown(
+            f"""
+            <div class="banknote-flip-stage {side_class}">
+                <div class="banknote-side-label">Back</div>
+                <div class="banknote-missing-back" style="--note-accent: {note_accent(BANKNOTE_MAP[denomination])};">
+                    <div class="explore-kicker">{escape(label)}</div>
+                    <h3>{escape(back_title)}</h3>
+                    <p>Back image not available yet.</p>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        return
+
+    alt = f"{label} {side.lower()} side"
+    st.markdown(
+        f"""
+        <div class="banknote-flip-stage {side_class}">
+            <div class="banknote-side-label">{escape(side)}</div>
+            <img src="{image_data_uri(image_path)}" alt="{escape(alt)}" />
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def render_bill_style_control() -> None:
@@ -310,6 +378,10 @@ def screen_explore() -> None:
         DENOMINATIONS,
         format_func=lambda d: BANKNOTE_MAP[d]["label"],
     )
+    if st.session_state.explore_selected_note != selected:
+        st.session_state.explore_selected_note = selected
+        st.session_state.explore_note_side = "Front"
+
     item = BANKNOTE_MAP[selected]
     back = item.get("back", {})
     if isinstance(back, str):
@@ -340,20 +412,33 @@ def screen_explore() -> None:
         """,
         unsafe_allow_html=True,
     )
-    st.image(note_asset(selected), width="stretch")
+    side = st.session_state.explore_note_side
+    if st.button(
+        f"Flip to {'Back' if side == 'Front' else 'Front'}",
+        type="primary",
+        width="stretch",
+        key=f"flip_note_{selected}",
+    ):
+        st.session_state.explore_note_side = "Back" if side == "Front" else "Front"
+        st.rerun()
 
-    render_info_block(
-        "Front",
-        item.get("front", "Portrait of Ho Chi Minh"),
-        common_front.get("description", ""),
-        common_front.get("title", ""),
-    )
-    render_info_block(
-        "Back",
-        back_title,
-        back.get("description", ""),
-        back_location,
-    )
+    side = st.session_state.explore_note_side
+    render_banknote_flipper(selected, item["label"], side, back_title)
+
+    if side == "Front":
+        render_info_block(
+            "Front",
+            item.get("front", "Portrait of Ho Chi Minh"),
+            common_front.get("description", ""),
+            common_front.get("title", ""),
+        )
+    else:
+        render_info_block(
+            "Back",
+            back_title,
+            back.get("description", ""),
+            back_location,
+        )
     render_culture_block(item.get("culture", ""))
 
     st.markdown(

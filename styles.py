@@ -28,6 +28,7 @@ def apply_styles() -> None:
 
         html, body, .stApp {
             color: var(--ink);
+            overflow-x: hidden;
         }
 
         #MainMenu, footer, header[data-testid="stHeader"] {
@@ -177,6 +178,7 @@ def apply_styles() -> None:
         .explore-note-hero {
             position: relative;
             overflow: hidden;
+            box-sizing: border-box;
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 18px;
@@ -231,6 +233,7 @@ def apply_styles() -> None:
         }
 
         .explore-info-block {
+            box-sizing: border-box;
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 18px;
@@ -240,6 +243,7 @@ def apply_styles() -> None:
         }
 
         .explore-culture-block {
+            box-sizing: border-box;
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 18px;
@@ -273,7 +277,156 @@ def apply_styles() -> None:
             line-height: 1.35;
         }
 
+        .banknote-flip-stage {
+            position: relative;
+            display: grid;
+            place-items: center;
+            width: 100%;
+            max-width: 100%;
+            min-height: 8.8rem;
+            margin: 0.7rem 0 0.85rem 0;
+            overflow: hidden;
+            box-sizing: border-box;
+            perspective: 900px;
+            border-radius: 12px;
+        }
+
+        .banknote-flip-stage::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-60%);
+            animation: banknoteFlipSheen 520ms ease-out both;
+        }
+
+        .banknote-flip-stage img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
+            animation: banknoteFlipToFront 520ms cubic-bezier(0.2, 0.75, 0.18, 1) both;
+            transform-origin: center;
+            backface-visibility: hidden;
+        }
+
+        .banknote-flip-stage.is-back img,
+        .banknote-flip-stage.is-back .banknote-missing-back {
+            animation-name: banknoteFlipToBack;
+        }
+
+        .banknote-flip-stage.is-front img,
+        .banknote-flip-stage.is-front .banknote-missing-back {
+            animation-name: banknoteFlipToFront;
+        }
+
+        .banknote-side-label {
+            position: absolute;
+            top: 0.55rem;
+            left: 0.55rem;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            min-height: 1.75rem;
+            padding: 0.28rem 0.56rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            color: var(--ink);
+            font-size: 0.72rem;
+            font-weight: 800;
+            line-height: 1;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.09);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .banknote-missing-back {
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 100%;
+            min-height: 8.8rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.28rem;
+            padding: 1.2rem 1.05rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background:
+                linear-gradient(90deg, var(--note-accent, var(--brand)) 0 0.45rem, transparent 0.45rem),
+                repeating-linear-gradient(135deg, #f8fafc 0 0.55rem, #eef2f7 0.55rem 1.1rem);
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
+            animation: banknoteFlipToFront 520ms cubic-bezier(0.2, 0.75, 0.18, 1) both;
+            transform-origin: center;
+            backface-visibility: hidden;
+        }
+
+        .banknote-missing-back h3 {
+            margin: 0.08rem 0 0 0;
+            color: var(--ink);
+            font-size: 1.15rem;
+            font-weight: 800;
+            line-height: 1.16;
+        }
+
+        .banknote-missing-back p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.88rem;
+            font-weight: 700;
+        }
+
+        @keyframes banknoteFlipToBack {
+            from {
+                opacity: 0.2;
+                transform: rotateY(-180deg) scale(0.96);
+            }
+            48% {
+                opacity: 0.55;
+                transform: rotateY(-88deg) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: rotateY(0deg) scale(1);
+            }
+        }
+
+        @keyframes banknoteFlipToFront {
+            from {
+                opacity: 0.2;
+                transform: rotateY(180deg) scale(0.96);
+            }
+            48% {
+                opacity: 0.55;
+                transform: rotateY(88deg) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: rotateY(0deg) scale(1);
+            }
+        }
+
+        @keyframes banknoteFlipSheen {
+            0% {
+                opacity: 0;
+                transform: translateX(-70%);
+            }
+            35% {
+                opacity: 0.7;
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(70%);
+            }
+        }
+
         .explore-tip {
+            box-sizing: border-box;
             background: #ecfdf5;
             border: 1px solid #a7f3d0;
             border-radius: 18px;

@@ -227,10 +227,9 @@ def screen_wallet() -> None:
 
 
 def screen_scan() -> None:
-    render_header("Scan Cash", "Snap or upload a photo, then add detected notes to your wallet.")
-    st.info("The AI hook is in `model.py`. Replace `predict_banknotes()` with your Colab model inference code.")
+    render_header("Scan", "Snap or upload a photo, then add detected notes to your wallet.")
 
-    mode = st.segmented_control("Input", ["Camera", "Upload"], default="Upload")
+    mode = st.segmented_control("Input", ["Camera", "Upload"], default="Camera")
     image_file = None
     if mode == "Camera":
         image_file = st.camera_input("Take a photo of the banknotes", label_visibility="collapsed")
@@ -268,7 +267,7 @@ def screen_scan() -> None:
 
 
 def screen_pay() -> None:
-    render_header("Payment Assistant", "Enter a bill amount and get the simplest way to pay with your cash.")
+    render_header("Payment", "Enter a bill amount and get the simplest way to pay with your cash.")
     render_balance_card()
     st.markdown("<div style='margin-top:2rem'></div>", unsafe_allow_html=True)
 
@@ -305,7 +304,7 @@ def screen_pay() -> None:
 
 
 def screen_explore() -> None:
-    render_header("Currency Explorer", "Browse Vietnamese banknotes and the stories behind them.")
+    render_header("Currency Info", "Browse Vietnamese banknotes and the stories behind them.")
     selected = st.selectbox(
         "Choose a banknote",
         DENOMINATIONS,
